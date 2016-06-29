@@ -9,6 +9,7 @@
 *.vi
 *~
 *.sass-cache
+*.iml
 
 # OS or Editor folders
 .DS_Store
@@ -29,6 +30,10 @@ dwsync.xml
 # Komodo
 *.komodoproject
 .komodotools
+
+# Composer
+composer.phar
+vendor
 
 # Folders to ignore
 .hg

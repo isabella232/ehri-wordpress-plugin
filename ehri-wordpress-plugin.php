@@ -16,28 +16,29 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	die;
+    die;
 }
 
 function activate_ehri_wordpress_plugin() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-ehri-wordpress-plugin-activator.php';
-	Ehri_Wordpress_Plugin_Activator::activate();
+    require_once plugin_dir_path( __FILE__ ) . 'includes/class-ehri-wordpress-plugin-activator.php';
+    Ehri_Wordpress_Plugin_Activator::activate();
 }
 
 function deactivate_ehri_wordpress_plugin() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-ehri-wordpress-plugin-deactivator.php';
-	Ehri_Wordpress_Plugin_Deactivator::deactivate();
+    require_once plugin_dir_path( __FILE__ ) . 'includes/class-ehri-wordpress-plugin-deactivator.php';
+    Ehri_Wordpress_Plugin_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_ehri_wordpress_plugin' );
 register_deactivation_hook( __FILE__, 'deactivate_ehri_wordpress_plugin' );
 
 require plugin_dir_path( __FILE__ ) . 'includes/class-ehri-wordpress-plugin.php';
-
 function run_ehri_wordpress_plugin() {
-
-	$plugin = new Ehri_Wordpress_Plugin();
-	$plugin->run();
+    $plugin = new Ehri_Wordpress_Plugin();
+    $plugin->run();
 
 }
+
 run_ehri_wordpress_plugin();
+
+
