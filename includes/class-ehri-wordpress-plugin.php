@@ -61,7 +61,7 @@ class Ehri_Wordpress_Plugin {
 
         $twig = new Twig_Environment( $loader, array(
             'debug' => WP_DEBUG,
-            'cache' => false //WP_DEBUG ? false : plugin_dir_path( dirname(__FILE__) ) . 'cache',
+            'cache' => WP_DEBUG ? false : plugin_dir_path( dirname(__FILE__) ) . 'cache',
         ) );
         $twig->addExtension(new Twig_Extensions_Extension_Text());
         $twig->addExtension(new Twig_Extensions_Extension_Date());
