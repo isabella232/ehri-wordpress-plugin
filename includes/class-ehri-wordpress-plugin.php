@@ -50,9 +50,7 @@ class Ehri_Wordpress_Plugin {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 
-
         $this->loader = new Ehri_Wordpress_Plugin_Loader();
-
     }
 
     private function initialize_twig() {
@@ -61,22 +59,22 @@ class Ehri_Wordpress_Plugin {
             plugin_dir_path( dirname( __FILE__ ) ) . 'admin/templates'
         ) );
 
-        return new Twig_Environment( $loader, array(
+        $twig = new Twig_Environment( $loader, array(
             'debug' => WP_DEBUG,
             'cache' => false //WP_DEBUG ? false : plugin_dir_path( dirname(__FILE__) ) . 'cache',
         ) );
+        $twig->addExtension(new Twig_Extensions_Extension_Text());
+        $twig->addExtension(new Twig_Extensions_Extension_Date());
+
+        return $twig;
     }
 
     private function set_locale() {
-
         $plugin_i18n = new Ehri_Wordpress_Plugin_i18n();
-
         $this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
     }
 
     private function define_admin_hooks() {
-
         $plugin_admin = new Ehri_Wordpress_Plugin_Admin(
             $this->get_plugin_name(), $this->get_version(), $this->get_twig() );
 

@@ -8,7 +8,9 @@ class Ehri_Wordpress_Plugin_Public {
     private $api_url;
 
     private $TEMPLATES = array(
-        'Repository' => 'institution.twig.html'
+        'Repository'      => 'institution.twig',
+        'HistoricalAgent' => 'authority.twig',
+        'DocumentaryUnit' => 'unit.twig'
     );
 
     const API_MIMETYPE = 'application/vnd.api+json';
@@ -27,10 +29,10 @@ class Ehri_Wordpress_Plugin_Public {
 
         $args = array(
             'headers' => array(
-                'Accept'        => self::API_MIMETYPE
+                'Accept' => self::API_MIMETYPE
             )
         );
-        if (!is_null($this->api_token)) {
+        if ( ! is_null( $this->api_token ) ) {
             $args['headers']['Authorization'] = 'Bearer ' . $this->api_token;
         }
 
@@ -47,7 +49,15 @@ class Ehri_Wordpress_Plugin_Public {
         $json = json_decode( $body, true );
         $type = $json['data']['type'];
 
-        return $this->twig->render( $this->TEMPLATES[ $type ], $json['data'] );
+        if ( ! array_key_exists( $type, $this->TEMPLATES ) ) {
+            return '<pre>Unsupported type: ' . $type . '</pre>';
+        }
+
+        $data             = $json['data'];
+        $data["included"] = $json["included"];
+        error_log( json_encode( $data["included"] ) );
+
+        return $this->twig->render( $this->TEMPLATES[ $type ], $data );
     }
 
 
