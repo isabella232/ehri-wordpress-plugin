@@ -1,29 +1,25 @@
 <?php
 
-require_once plugin_dir_path( __FILE__ ) . '../vendor/autoload.php';
-
 class Ehri_Wordpress_Plugin_Public {
     private $plugin_name;
     private $version;
     private $twig;
+    private $api_token;
+    private $api_url;
 
     private $TEMPLATES = array(
         'Repository' => 'institution.twig.html'
     );
 
-    const API_BASE_URI = 'https://portal.ehri-project.eu/api/v1/';
-    const API_BEARER_TOKEN = 'EHRI-Test';
     const API_MIMETYPE = 'application/vnd.api+json';
 
-    public function __construct( $plugin_name, $version ) {
+    public function __construct( $plugin_name, $version, $twig ) {
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
+        $this->twig        = $twig;
 
-        $loader     = new Twig_Loader_Filesystem( plugin_dir_path( __FILE__ ) . 'templates' );
-        $this->twig = new Twig_Environment( $loader, array(
-            'debug' => WP_DEBUG,
-            'cache' => WP_DEBUG ? false : plugin_dir_path( __FILE__ ) . 'cache',
-        ) );
+        $this->api_token = get_option( 'ehri_api_access_token' );
+        $this->api_url   = get_option( 'ehri_api_base_url' );
     }
 
     function fetch_shortcode( $atts ) {
@@ -31,17 +27,20 @@ class Ehri_Wordpress_Plugin_Public {
 
         $args = array(
             'headers' => array(
-                'Accept'        => self::API_MIMETYPE,
-                'Authorization' => 'Bearer ' . self::API_BEARER_TOKEN
+                'Accept'        => self::API_MIMETYPE
             )
         );
+        if (!is_null($this->api_token)) {
+            $args['headers']['Authorization'] = 'Bearer ' . $this->api_token;
+        }
 
-        $url      = self::API_BASE_URI . $id_atts["id"];
+        $url      = $this->api_url . $id_atts["id"];
         $response = wp_remote_request( $url, $args );
         $code     = wp_remote_retrieve_response_code( $response );
         $body     = wp_remote_retrieve_body( $response );
         if ( $code != 200 ) {
-            error_log('Error retrieving API data [' . $code . ']: ' . $body);
+            error_log( 'Error retrieving API data [' . $code . ']: ' . $body );
+
             return '<pre>Error requesting EHRI API data: ' . $code . '</pre>';
         }
 
