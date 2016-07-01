@@ -54,8 +54,12 @@ class Ehri_Wordpress_Plugin_Public {
         }
 
         $data             = $json['data'];
-        $data["included"] = $json["included"];
-        error_log( json_encode( $data["included"] ) );
+
+        // If there is 'included' data at the top level, move it
+        // into the main data array...
+        if (array_key_exists("included", $json)) {
+            $data["included"] = $json["included"];
+        }
 
         return $this->twig->render( $this->TEMPLATES[ $type ], $data );
     }
