@@ -24,7 +24,7 @@ class Ehri_Wordpress_Plugin_Admin {
     }
 
     public function plugin_menu() {
-        add_options_page( 'EHRI Wordpress Plugin Options', 'EHRI Wordpress Plugin',
+        add_options_page( 'EHRI Portal Data', 'EHRI Portal Data',
             'manage_options', 'ehri-wordpress-plugin', array( $this, 'ehri_wordpress_plugin_options' ) );
     }
 
