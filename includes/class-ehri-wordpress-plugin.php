@@ -10,7 +10,7 @@ class Ehri_Wordpress_Plugin {
     public function __construct() {
 
         $this->plugin_name = 'ehri-wordpress-plugin';
-        $this->version     = '0.0.1';
+        $this->version     = '0.0.2';
 
         $this->load_dependencies();
         $this->twig = $this->initialize_twig();

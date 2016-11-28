@@ -5,12 +5,14 @@ class Ehri_Wordpress_Plugin_Public {
     private $version;
     private $twig;
     private $api_token;
-    private $api_url;
+    private $base_url;
+    private $api_path;
 
     private $TEMPLATES = array(
         'Repository'      => 'institution.twig',
         'HistoricalAgent' => 'authority.twig',
-        'DocumentaryUnit' => 'unit.twig'
+        'DocumentaryUnit' => 'unit.twig',
+        'VirtualUnit'     => 'virtual.twig'
     );
 
     const API_MIMETYPE = 'application/vnd.api+json';
@@ -21,7 +23,8 @@ class Ehri_Wordpress_Plugin_Public {
         $this->twig        = $twig;
 
         $this->api_token = get_option( 'ehri_api_access_token' );
-        $this->api_url   = get_option( 'ehri_api_base_url' );
+        $this->base_url   = get_option( 'ehri_portal_base_url' );
+        $this->api_path   = get_option( 'ehri_api_path' );
     }
 
     function fetch_shortcode( $atts ) {
@@ -36,7 +39,7 @@ class Ehri_Wordpress_Plugin_Public {
             $args['headers']['Authorization'] = 'Bearer ' . $this->api_token;
         }
 
-        $url      = $this->api_url . $id_atts["id"];
+        $url      = $this->base_url . $this->api_path . $id_atts["id"];
         $response = wp_remote_request( $url, $args );
         $code     = wp_remote_retrieve_response_code( $response );
         $body     = wp_remote_retrieve_body( $response );
@@ -54,6 +57,7 @@ class Ehri_Wordpress_Plugin_Public {
         }
 
         $data             = $json['data'];
+        $data["baseUrl"]  = $this->base_url;
 
         // If there is 'included' data at the top level, move it
         // into the main data array...

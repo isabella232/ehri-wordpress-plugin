@@ -1,6 +1,6 @@
-{% extends "item.twig" %}
+{% set itemUrl = baseUrl ~ "/units/" ~ id %}
 
-{% set itemUrl = "//portal.ehri-project.eu/units/" ~ id %}
+{% extends "item.twig" %}
 
 {% block heading %}
     <h2>
@@ -24,7 +24,7 @@
             {% if item.type == 'Repository' %}
                 <li>
                     <a target="_blank" class="alt"
-                       href="//portal.ehri-project.eu/institutions/{{ item.id }}">{{ item.attributes.name }}</a>
+                       href="{{ baseUrl }}/institutions/{{ item.id }}">{{ item.attributes.name }}</a>
                 </li>
             {% endif %}
         {% endfor %}
@@ -48,7 +48,8 @@
 {% endblock %}
 
 {% block subitems %}
-    <a target="_blank" href="{{ itemUrl }}/search">
+    {% set subItemUrl = itemUrl ~ "/search" %}
+    <a target="_blank" href="{{ subItemUrl }}>
         {{ meta.subitems }} archival descriptions available
     </a>
 {% endblock %}

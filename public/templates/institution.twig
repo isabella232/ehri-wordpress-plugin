@@ -1,6 +1,6 @@
 {% extends "item.twig" %}
 
-{% set itemUrl = "//portal.ehri-project.eu/institutions/" ~ id %}
+{% set itemUrl = baseUrl ~ "/institutions/" ~ id %}
 
 {% block heading %}
     <h2>
@@ -22,7 +22,7 @@
     <ul class="concise-address">
         {% if attributes.address.country and attributes.address.countryCode %}
             <li>
-                <a target="_blank" href="//portal.ehri-project.eu/countries/{{ attributes.address.countryCode|lower }}"
+                <a target="_blank" href="{{ baseUrl }}/countries/{{ attributes.address.countryCode|lower }}"
                    class="alt">
                     {{ attributes.address.country }}
                 </a>

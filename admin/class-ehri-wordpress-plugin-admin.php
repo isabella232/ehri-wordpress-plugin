@@ -29,15 +29,20 @@ class Ehri_Wordpress_Plugin_Admin {
     }
 
     public function register_options() {
-        register_setting( 'ehri-wordpress-plugin', 'ehri_api_base_url', array( $this, 'sanitize_api_base_url' ) );
+        register_setting( 'ehri-wordpress-plugin', 'ehri_portal_base_url', array( $this, 'sanitize_portal_base_url' ) );
+        register_setting( 'ehri-wordpress-plugin', 'ehri_api_path' );
         register_setting( 'ehri-wordpress-plugin', 'ehri_api_access_token' );
         add_settings_section( 'section-one', 'Shortcode', array(
             $this,
             'section_one_callback'
         ), 'ehri-wordpress-plugin' );
-        add_settings_field( 'ehri_api_base_url', 'API Base URL', array(
+        add_settings_field( 'ehri_portal_base_url', 'Portal Base URL', array(
             $this,
-            'api_base_url_callback'
+            'portal_base_url_callback'
+        ), 'ehri-wordpress-plugin', 'section-one' );
+        add_settings_field( 'ehri_api_path', 'API Path', array(
+            $this,
+            'api_path_callback'
         ), 'ehri-wordpress-plugin', 'section-one' );
         add_settings_field( 'ehri_api_access_token', 'Access Token', array(
             $this,
@@ -45,7 +50,7 @@ class Ehri_Wordpress_Plugin_Admin {
         ), 'ehri-wordpress-plugin', 'section-one' );
     }
 
-    public function sanitize_api_base_url( $url ) {
+    public function sanitize_portal_base_url( $url ) {
         return filter_var( $url, FILTER_VALIDATE_URL );
     }
 
@@ -53,9 +58,14 @@ class Ehri_Wordpress_Plugin_Admin {
         echo 'EHRI shortcode plugin settings';
     }
 
-    public function api_base_url_callback() {
-        $setting = esc_attr( get_option( 'ehri_api_base_url', 'https://portal.ehri-project.eu/api/v1/' ) );
-        echo "<input type='text' name='ehri_api_base_url' value='$setting' />";
+    public function portal_base_url_callback() {
+        $setting = esc_attr( get_option( 'ehri_portal_base_url', 'https://portal.ehri-project.eu' ) );
+        echo "<input type='text' name='ehri_portal_base_url' value='$setting' />";
+    }
+
+    public function api_path_callback() {
+        $setting = esc_attr( get_option( 'ehri_api_path', '/api/v1/' ) );
+        echo "<input type='text' name='ehri_api_path' value='$setting' />";
     }
 
     public function api_access_token_callback() {
