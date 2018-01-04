@@ -32,6 +32,7 @@ class Ehri_Wordpress_Plugin_Admin {
         register_setting( 'ehri-wordpress-plugin', 'ehri_portal_base_url', array( $this, 'sanitize_portal_base_url' ) );
         register_setting( 'ehri-wordpress-plugin', 'ehri_api_path' );
         register_setting( 'ehri-wordpress-plugin', 'ehri_api_access_token' );
+        register_setting( 'ehri-wordpress-plugin', 'ehri_render_async' );
         add_settings_section( 'section-one', 'Shortcode', array(
             $this,
             'section_one_callback'
@@ -47,6 +48,10 @@ class Ehri_Wordpress_Plugin_Admin {
         add_settings_field( 'ehri_api_access_token', 'Access Token', array(
             $this,
             'api_access_token_callback'
+        ), 'ehri-wordpress-plugin', 'section-one' );
+        add_settings_field( 'ehri_render_async', 'Render Asynchronously', array(
+            $this,
+            'render_async_callback'
         ), 'ehri-wordpress-plugin', 'section-one' );
     }
 
@@ -71,6 +76,12 @@ class Ehri_Wordpress_Plugin_Admin {
     public function api_access_token_callback() {
         $setting = esc_attr( get_option( 'ehri_api_access_token' ) );
         echo "<input type='text' name='ehri_api_access_token' value='$setting' />";
+    }
+
+    public function render_async_callback() {
+        $setting = esc_attr( get_option( 'ehri_render_async' ) );
+        $checked = $setting ? "checked" : "";
+        echo "<input type='checkbox' name='ehri_render_async' $checked />";
     }
 
     function ehri_wordpress_plugin_options() {

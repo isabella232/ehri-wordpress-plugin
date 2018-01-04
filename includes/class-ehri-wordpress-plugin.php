@@ -10,7 +10,7 @@ class Ehri_Wordpress_Plugin {
     public function __construct() {
 
         $this->plugin_name = 'ehri-wordpress-plugin';
-        $this->version     = '0.0.2';
+        $this->version     = '0.0.3';
 
         $this->load_dependencies();
         $this->twig = $this->initialize_twig();
@@ -76,7 +76,7 @@ class Ehri_Wordpress_Plugin {
 
     private function define_admin_hooks() {
         $plugin_admin = new Ehri_Wordpress_Plugin_Admin(
-            $this->get_plugin_name(), $this->get_version(), $this->get_twig() );
+            $this->get_plugin_name() . "-admin", $this->get_version(), $this->get_twig() );
 
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -87,11 +87,15 @@ class Ehri_Wordpress_Plugin {
     private function define_public_hooks() {
 
         $plugin_public = new Ehri_Wordpress_Plugin_Public(
-            $this->get_plugin_name(), $this->get_version(), $this->get_twig() );
+            $this->get_plugin_name() . "-public", $this->get_version(), $this->get_twig() );
 
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+        $this->loader->add_action( 'wp_ajax_load_ehri_data', $plugin_public, 'ajax_load_ehri_data' );
+        $this->loader->add_action( 'wp_ajax_nopriv_load_ehri_data', $plugin_public, 'ajax_load_ehri_data' );
+
         add_shortcode( 'ehri-item-data', array( $plugin_public, 'fetch_shortcode' ) );
+
     }
 
     public function run() {

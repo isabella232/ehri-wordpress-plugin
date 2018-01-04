@@ -136,3 +136,7 @@
 .ehri-item-container .ehri-item-footer a:hover {
     color: #333;
 }
+
+.ehri-item-placeholder {
+    margin: 10px;
+}
