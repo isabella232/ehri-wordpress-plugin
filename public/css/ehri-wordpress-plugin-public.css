@@ -1,3 +1,8 @@
+.ehri-item-container * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
 
 .ehri-item-container {
     border: 1px solid #eee;
@@ -5,7 +10,7 @@
     line-height: 1.42857;
     font-size: 14px;
     margin: 20px 0;
-    box-shadow: 2px 2px 8px 2px rgba(230,230,230,1);
+    box-shadow: 2px 2px 8px 2px rgba(230, 230, 230, 1);
 }
 
 .ehri-item {
@@ -20,17 +25,18 @@
     font-family: serif;
     margin-top: 0;
     margin-bottom: 0;
-  font-size: 1.3em;
-  font-weight: 400;
+    text-transform: none;
+    font-size: 1.3em;
+    font-weight: 400;
 }
 
 .ehri-item .ehri-item-heading a {
-  text-decoration: none;
-  box-shadow: none;
+    text-decoration: none;
+    box-shadow: none;
 }
 
 .ehri-item .ehri-item-heading a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .ehri-item .ehri-item-heading.Repository a h2 {
@@ -38,7 +44,7 @@
 }
 
 .ehri-item .ehri-item-heading.Repository a {
-  color: #034153;
+    color: #034153;
 }
 
 .ehri-item .ehri-item-heading.HistoricalAgent a {
@@ -79,7 +85,7 @@
 .ehri-item .ehri-item-subitems a:hover {
     text-decoration: underline;
 }
-    
+
 .ehri-item .ehri-item-details ul {
     padding-left: 0;
     margin-left: 0;
